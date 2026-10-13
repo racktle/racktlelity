@@ -11,6 +11,17 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_homepage_serves_the_creative_landing_page(): void
+    {
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertSee('Video Editing')
+            ->assertSee('3D Modeling')
+            ->assertSee('Pixel Art')
+            ->assertSee('Game Programming')
+            ->assertSee('/register');
+    }
+
     public function test_a_visitor_can_register_as_a_user_and_open_their_dashboard(): void
     {
         $response = $this->post(route('register.store'), [
