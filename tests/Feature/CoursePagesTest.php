@@ -6,6 +6,23 @@ use Tests\TestCase;
 
 class CoursePagesTest extends TestCase
 {
+    public function test_landing_page_links_have_standalone_page_files(): void
+    {
+        $pages = [
+            'login/index.html',
+            'register/index.html',
+            'dashboard/index.html',
+            'kelas/video-editing/index.html',
+            'kelas/3d-modeling/index.html',
+            'kelas/pixel-art/index.html',
+            'kelas/game-programming/index.html',
+        ];
+
+        foreach ($pages as $page) {
+            $this->assertFileExists(base_path($page));
+        }
+    }
+
     public function test_landing_page_authentication_links_open_real_pages(): void
     {
         $this->get('/login')->assertOk()->assertSee('Masuk ke akunmu');
