@@ -20,7 +20,7 @@
         <p class="small text-uppercase text-secondary fw-semibold px-2 mb-3" style="letter-spacing:.1em">Menu utama</p>
         <nav class="sidebar-links flex-md-column">
             <a class="side-link active d-flex align-items-center gap-3 px-3 py-2 mb-1" href="{{ route('dashboard') }}"><i class="bi bi-grid"></i>Ringkasan</a>
-            <a class="side-link d-flex align-items-center gap-3 px-3 py-2 mb-1" href="#kelas"><i class="bi bi-journal-bookmark"></i>Kelas saya</a>
+            <a class="side-link d-flex align-items-center gap-3 px-3 py-2 mb-1" href="#kelas"><i class="bi bi-journal-bookmark"></i>Jelajahi kelas</a>
             <a class="side-link d-flex align-items-center gap-3 px-3 py-2 mb-1" href="#aktivitas"><i class="bi bi-activity"></i>Aktivitas</a>
         </nav>
         <div class="content-card p-3 mt-4 d-none d-md-block">
@@ -40,9 +40,9 @@
                 <div class="col-lg-8">
                     <p class="small text-white-50 mb-2">RUANG BELAJARMU</p>
                     <h2 class="h3 fw-semibold">Setiap langkah kecil berarti.</h2>
-                    <p class="text-white-50 mb-0">Pilih kelas yang ingin kamu pelajari dan mulai dari mana saja.</p>
+                    <p class="text-white-50 mb-0">Temukan kelas kreatif dan pilih skill yang ingin kamu kembangkan.</p>
                 </div>
-                <div class="col-lg-4 text-lg-end"><a href="#kelas" class="btn btn-light rounded-pill px-4">Lihat kelas <i class="bi bi-arrow-right ms-1"></i></a></div>
+                <div class="col-lg-4 text-lg-end"><a href="{{ route('home') }}#kelas" class="btn btn-light rounded-pill px-4">Lihat semua kelas <i class="bi bi-arrow-right ms-1"></i></a></div>
             </div>
         </section>
         <section class="row g-3 mb-4">
@@ -67,13 +67,21 @@
         </section>
         <section id="kelas" class="content-card p-4 mb-4">
             <div class="d-flex align-items-center justify-content-between mb-3">
-                <div><h2 class="h5 fw-semibold mb-1">Kelas untukmu</h2><p class="small text-secondary mb-0">Ruang kelas yang bisa kamu jelajahi.</p></div>
-                <span class="badge text-bg-light rounded-pill">Segera hadir</span>
+                <div><h2 class="h5 fw-semibold mb-1">Jelajahi kelas</h2><p class="small text-secondary mb-0">Pilih bidang kreatif untuk mulai dipelajari.</p></div>
+                <a href="{{ route('home') }}#kelas" class="small fw-semibold text-dark text-decoration-none">Semua kelas <i class="bi bi-arrow-right ms-1"></i></a>
             </div>
-            <div class="border rounded-4 p-4 text-center">
-                <span class="metric-icon rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"><i class="bi bi-journal-plus"></i></span>
-                <h3 class="h6 fw-semibold">Kelas pertamamu menunggu</h3>
-                <p class="small text-secondary mb-0">Kami sedang menyiapkan pengalaman belajar yang menyenangkan untukmu.</p>
+            <div class="row g-3">
+                @foreach ($courses as $slug => $course)
+                    <div class="col-sm-6 col-xl-3">
+                        <a href="{{ route('courses.show', $slug) }}" class="content-card d-flex flex-column h-100 p-3 text-decoration-none text-dark">
+                            <span class="metric-icon rounded-3 d-flex align-items-center justify-content-center mb-3"><i class="bi {{ $course['icon'] }}"></i></span>
+                            <span class="small text-secondary">{{ $course['category'] }}</span>
+                            <span class="fw-semibold mt-1">{{ $course['title'] }}</span>
+                            <span class="small text-secondary mt-2">{{ $course['summary'] }}</span>
+                            <span class="small fw-semibold mt-auto pt-3">Lihat detail <i class="bi bi-arrow-right ms-1"></i></span>
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </section>
         <section id="aktivitas" class="content-card p-4">

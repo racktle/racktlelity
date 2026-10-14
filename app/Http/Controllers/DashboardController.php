@@ -14,7 +14,9 @@ class DashboardController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return view('dashboard.user');
+        return view('dashboard.user', [
+            'courses' => CourseController::catalog(),
+        ]);
     }
 
     public function admin(): View

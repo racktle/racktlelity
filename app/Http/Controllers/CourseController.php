@@ -89,14 +89,20 @@ class CourseController extends Controller
         ],
     ];
 
+    public static function catalog(): array
+    {
+        return self::COURSES;
+    }
+
     public function show(string $slug): View
     {
-        abort_unless(isset(self::COURSES[$slug]), 404);
+        $courses = self::catalog();
+        abort_unless(isset($courses[$slug]), 404);
 
-        $course = self::COURSES[$slug];
+        $course = $courses[$slug];
         $course['slug'] = $slug;
 
-        $relatedCourses = collect(self::COURSES)
+        $relatedCourses = collect($courses)
             ->except($slug)
             ->map(fn (array $relatedCourse, string $relatedSlug): array => [
                 ...$relatedCourse,

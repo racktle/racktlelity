@@ -22,6 +22,11 @@ class AuthenticationTest extends TestCase
             ->assertSee('/register');
     }
 
+    public function test_guest_is_redirected_to_login_from_the_dashboard(): void
+    {
+        $this->get(route('dashboard'))->assertRedirect(route('login'));
+    }
+
     public function test_a_visitor_can_register_as_a_user_and_open_their_dashboard(): void
     {
         $response = $this->post(route('register.store'), [
@@ -71,6 +76,25 @@ class AuthenticationTest extends TestCase
         $this->actingAs($user)
             ->get(route('admin.dashboard'))
             ->assertForbidden();
+    }
+
+    public function test_student_dashboard_links_to_each_course_detail_page(): void
+    {
+        $user = User::create([
+            'name' => 'Pelajar',
+            'email' => 'pelajar-kelas@example.test',
+            'password' => 'secret-password',
+            'role' => 'user',
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('dashboard'))
+            ->assertOk()
+            ->assertSee('Jelajahi kelas')
+            ->assertSee('/kelas/video-editing')
+            ->assertSee('/kelas/3d-modeling')
+            ->assertSee('/kelas/pixel-art')
+            ->assertSee('/kelas/game-programming');
     }
 
     public function test_admin_can_open_the_admin_dashboard(): void

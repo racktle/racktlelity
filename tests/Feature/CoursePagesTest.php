@@ -6,6 +6,12 @@ use Tests\TestCase;
 
 class CoursePagesTest extends TestCase
 {
+    public function test_landing_page_authentication_links_open_real_pages(): void
+    {
+        $this->get('/login')->assertOk()->assertSee('Masuk ke akunmu');
+        $this->get('/register')->assertOk()->assertSee('Mulai perjalananmu');
+    }
+
     public function test_each_landing_page_course_has_a_detail_page(): void
     {
         $courses = [
